@@ -22,7 +22,6 @@ def createNew(withFitness):
     best = ranked[:perGeneration/4]
     mutated = []
     
-    ranked[0].toFile("saved/test" + str(glassc))
     glassc += 1
     
     for i in range(perGeneration - perGeneration/4):
@@ -51,7 +50,7 @@ class Worker(Process):
         self.fs = map(fitness, self.group)
         self.queue.put(self.fs)
     
-def gaGlass(nGenerations):
+def gaGlass(nGenerations, fname):
     newGeneration = randomGeneration()
     
     # TODO detect pletau ?
@@ -91,10 +90,12 @@ def gaGlass(nGenerations):
         fitnessWithChromosomes = zip(fs, newGeneration)
         newGeneration = createNew(fitnessWithChromosomes)
         
+        newGeneration[0].toFile("saved/" + fname + str(i))
+        
         print "best:", best
         print "took", int(round(time.time() - start)), "seconds"
         print
-    
+
     return newGeneration[0]
 
 def plotTemps(c):
