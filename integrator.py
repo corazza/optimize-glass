@@ -6,8 +6,8 @@ from scipy import interpolate
 # constants
 Ro = 1000
 C = 4.1795
-hTop = 33.3
-hSide = 29.8
+hTop = 33.3/2*5
+hSide = 29.8/2
 
 # settings
 envTemp = 273+40 # K
@@ -54,11 +54,7 @@ def rk4(timeState, valueState):
 
 def interFunc(ys, val, dx, caller):
     i = int(math.floor(val/dx))
-    if i >= len(ys) and abs(i - len(ys)) < 100:
-        i = len(ys)-1
-        print i
-    elif i >= len(ys): print i, val, caller
-        
+    if i >= len(ys) and abs(i - len(ys)) < 100: i = len(ys)-1
     return ys[i]
 
 def interStates(c):
@@ -92,12 +88,10 @@ def interStates(c):
 
     return fi_height_volume, fi_radius_height, fi_side_height, fi_volume_height
 
-# TODO remove dt, use discrete ?
 def meanTemp(c):
     fi_height_volume, fi_radius_height, fi_side_height, fi_volume_height = interStates(c)
     
     if fi_volume_height[-1] < totalVolume:
-        print "removing, volume", fi_volume_height[-1]
         return envTemp+1000
 
     def topSurface(t):

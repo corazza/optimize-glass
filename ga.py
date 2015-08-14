@@ -109,7 +109,11 @@ def plotTemps(c):
 def plotGlass(c):
     xradii = numpy.linspace(0, properties.glassHeight, num=properties.interPoints)
     fi_height_volume, fi_radius_height, fi_side_height, fi_volume_height = integrator.interStates(c)
-    plt.plot(xradii, fi_radius_height)
+    
+    xvolume = integrator.interFunc(fi_height_volume, integrator.totalVolume, fi_volume_height[-1] / properties.interPoints, "fi_height_volume")
+    yvolume = integrator.interFunc(fi_radius_height, xvolume, properties.interDHeight, "fi_radius_height")
+    
+    plt.plot(xradii, fi_radius_height, 'k', [xvolume], [yvolume], 'ro')
     plt.xlabel("height / m")
     plt.ylabel("radius / m")
     plt.show()

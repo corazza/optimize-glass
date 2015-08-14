@@ -4,6 +4,6 @@ glassHeight = 0.3
 dHeight = glassHeight / dataPoints
 interDHeight = glassHeight / interPoints
 
-minWidth = 0.02
-maxWidth = 0.2
+minWidth = 0.0001
+maxWidth = 0.15
 
