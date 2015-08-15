@@ -50,7 +50,8 @@ class Worker(Process):
         self.fs = map(fitness, self.group)
         self.queue.put(self.fs)
     
-def gaGlass(nGenerations, fname):
+def gaGlass(nGenerations, fname, hTop=integrator.hTop):
+    integrator.hTop = hTop
     newGeneration = randomGeneration()
     
     # TODO detect pletau ?
