@@ -61,8 +61,8 @@ def gaGlass(nGenerations, fname):
         work = []
         inThread = perGeneration / nThreads
         wontFit = perGeneration % nThreads
-        for i in range(nThreads):
-            group = newGeneration[inThread*i:inThread*(i+1)]
+        for j in range(nThreads):
+            group = newGeneration[inThread*j:inThread*(j+1)]
             work.append(group)
         
         if wontFit > 0: work[-1].extend(newGeneration[-wontFit:])
@@ -70,9 +70,9 @@ def gaGlass(nGenerations, fname):
         queues = []
         workers = []
         
-        for i in range(len(work)):
+        for j in range(len(work)):
             queue = Queue()
-            workers.append(Worker(work[i], queue))
+            workers.append(Worker(work[j], queue))
             queues.append(queue)
         
         for worker in workers[1:]: worker.start()
@@ -81,8 +81,8 @@ def gaGlass(nGenerations, fname):
         
         doneWork = []
         
-        for i in range(len(workers)):
-            doneWork.append(queues[i].get())
+        for j in range(len(workers)):
+            doneWork.append(queues[j].get())
         
         fs = sum(doneWork, [])
         best = min(fs)
@@ -91,6 +91,7 @@ def gaGlass(nGenerations, fname):
         newGeneration = createNew(fitnessWithChromosomes)
         
         newGeneration[0].toFile("saved/" + fname + str(i))
+        print i
         
         print "best:", best
         print "took", int(round(time.time() - start)), "seconds"
